@@ -19,7 +19,7 @@ jobs:
           node-version: "16.x"
           registry-url: https://registry.npmjs.org
 
-        - name: Apply version bump (major)
+      - name: Apply version bump (major)
         if: "contains(github.event.pull_request.labels.*.name, 'major-release')"
         run: npm version major
 
