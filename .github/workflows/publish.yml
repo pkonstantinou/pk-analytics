@@ -1,4 +1,4 @@
-name: 🚀 publish
+name: Publish
 
 on:
   pull_request:
@@ -6,20 +6,33 @@ on:
       - main
     types: [closed]
 
+env:
+  GITHUB_ACTIONS_BOT_EMAIL: github-actions[bot]@users.noreply.github.com
+  GITHUB_ACTIONS_BOT_NAME: github-actions[bot]
+
 jobs:
   publish:
-    name: 🚀 publish
+    name: Publish
     runs-on: ubuntu-latest
     steps:
-      - name: 📚 checkout
+      - name: Checkout repo
         uses: actions/checkout@v3
-      - name: 🟢 node
+
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "16.x"
           registry-url: https://registry.npmjs.org
 
-        - name: Apply version bump (major)
+      - name: Configure GIT user
+        run: |
+          git config --local user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
+          git config --local user.name "${{ env.GITHUB_ACTIONS_BOT_NAME }}"
+
+      - name: Show uncommitted files
+        run: git status
+
+      - name: Apply version bump (major)
         if: "contains(github.event.pull_request.labels.*.name, 'major-release')"
         run: npm version major
 
@@ -34,7 +47,7 @@ jobs:
       - name: Push version commit and tag
         run: git push origin main --follow-tags
 
-      - name: 🚀 publish
+      - name: Publish
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
