@@ -7,7 +7,7 @@ on:
     types: [closed]
 
 jobs:
-  release:
+  publish:
     name: 🚀 publish
     runs-on: ubuntu-latest
     steps:
@@ -18,6 +18,22 @@ jobs:
         with:
           node-version: "16.x"
           registry-url: https://registry.npmjs.org
+
+        - name: Apply version bump (major)
+        if: "contains(github.event.pull_request.labels.*.name, 'major-release')"
+        run: npm version major
+
+      - name: Apply version bump (patch)
+        if: "!contains(github.event.pull_request.labels.*.name, 'major-release') && contains(github.event.pull_request.labels.*.name, 'patch-release')"
+        run: npm version patch
+
+      - name: Apply version bump (minor)
+        if: "!contains(github.event.pull_request.labels.*.name, 'major-release') && !contains(github.event.pull_request.labels.*.name, 'patch-release')"
+        run: npm version minor
+
+      - name: Push version commit and tag
+        run: git push origin main --follow-tags
+
       - name: 🚀 publish
         run: npm publish
         env:
