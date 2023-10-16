@@ -71,8 +71,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
 
       - name: Create Github Release
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           gh api \
             --method POST \
