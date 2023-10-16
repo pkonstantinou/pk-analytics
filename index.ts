@@ -1,1 +1,1 @@
-export const pkAnalticsHello = () => console.log("Hello from pk-analytics!");
+export { Analytics } from './src';
