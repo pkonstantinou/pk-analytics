@@ -53,6 +53,12 @@ jobs:
       - name: Push version commit and tag
         run: git push origin main --follow-tags
 
+      - name: Output new package version
+        run: |
+          NEW_PACKAGE_VERSION=v$(npm pkg get version | sed 's/"//g')
+          echo "New package version is: ${NEW_PACKAGE_VERSION}"
+          echo "IMAGE_TAG=${NEW_PACKAGE_VERSION}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: npm i
 
