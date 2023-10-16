@@ -2,5 +2,16 @@
   "name": "pk-analytics",
   "version": "1.3.0",
   "author": "P. Konstantinou",
-  "license": "ISC"
+  "license": "ISC",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "lint": "tsc"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  }
 }
