@@ -63,3 +63,15 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+
+      - name: Create Github Release
+        env:
+          GH_TOKEN: ${{ secret.GH_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/releases \
+            -f tag_name='${{ env.IMAGE_TAG }}' \
+            -f name='${{ env.IMAGE_TAG }}' \
+            -F generate_release_notes=true
