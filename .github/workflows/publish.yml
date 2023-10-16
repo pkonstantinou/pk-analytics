@@ -1,18 +1,24 @@
-name: Publish
+name: Release Pipeline
+
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#     types: [closed]
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types: [closed]
+      - 'main'
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   GITHUB_ACTIONS_BOT_EMAIL: github-actions[bot]@users.noreply.github.com
   GITHUB_ACTIONS_BOT_NAME: github-actions[bot]
 
 jobs:
-  publish:
-    name: Publish
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -23,6 +29,21 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run tests
+        run: npm test
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Restore workspace
+        uses: actions/checkout@v3
+        with:
+          path: ./
 
       - name: Configure GIT user
         run: |
