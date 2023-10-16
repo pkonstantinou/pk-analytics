@@ -21,7 +21,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: '16.x'
           registry-url: https://registry.npmjs.org
 
       - name: Configure GIT user
@@ -46,6 +46,9 @@ jobs:
 
       - name: Push version commit and tag
         run: git push origin main --follow-tags
+
+      - name: Build
+        run: npm run build
 
       - name: Publish
         run: npm publish
