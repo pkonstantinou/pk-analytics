@@ -10,7 +10,9 @@
     "dist"
   ],
   "scripts": {
-    "test": "echo \"Tests passed successfully!\""
+    "test": "echo \"Tests passed successfully!\"",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "lint": "tsc"
   },
   "devDependencies": {
     "tsup": "^7.2.0",
