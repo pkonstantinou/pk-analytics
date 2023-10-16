@@ -1,6 +1,6 @@
 {
   "name": "pk-analytics",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "author": "P. Konstantinou",
   "license": "ISC",
   "main": "./dist/index.js",
