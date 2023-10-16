@@ -47,6 +47,9 @@ jobs:
       - name: Push version commit and tag
         run: git push origin main --follow-tags
 
+      - name: Install dependencies
+        run: npm i
+
       - name: Build
         run: npm run build
 
