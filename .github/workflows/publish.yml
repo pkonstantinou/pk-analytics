@@ -30,24 +30,6 @@ jobs:
           node-version: '16.x'
           registry-url: https://registry.npmjs.org
 
-      - name: Install dependencies
-        run: npm i
-
-      - name: Run tests
-        run: npm run test
-
-      - name: Build
-        run: npm run build
-
-  publish:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Restore workspace
-        uses: actions/checkout@v3
-        with:
-          path: ./
-
       - name: Configure GIT user
         run: |
           git config --local user.email "${{ env.GITHUB_ACTIONS_BOT_EMAIL }}"
@@ -70,6 +52,12 @@ jobs:
 
       - name: Push version commit and tag
         run: git push origin main --follow-tags
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build
+        run: npm run build
 
       - name: Publish
         run: npm publish
